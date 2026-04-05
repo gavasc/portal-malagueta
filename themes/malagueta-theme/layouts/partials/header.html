@@ -1,0 +1,35 @@
+<header class="site-header">
+  <div class="header-inner">
+    <div class="site-title">
+      <!--<a href="{{ "/" | relURL }}">{{ .Site.Title }}</a>-->
+      <a href="{{ "/" | relURL }}"> <img src="https://substackcdn.com/image/fetch/$s_!zuIs!,e_trim:10:white/e_trim:10:transparent/h_72,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6a8d5adc-f66a-4ea4-8f76-9c24401e7c76_8400x1600.png"> </a>
+    </div>
+
+    <nav class="site-nav" aria-label="Navegação principal">
+      <ul>
+        <li>
+          <a href="{{ "/" | relURL }}" {{ if .IsHome }}class="active"{{ end }}>Início</a>
+        </li>
+        {{ range .Site.Params.navCategories }}
+          <li>
+            <a href="{{ printf "/categories/%s/" (. | urlize) | relURL }}"
+              {{ if eq ($.CurrentSection.Title) . }}class="active"{{ end }}>
+              {{ . }}
+            </a>
+          </li>
+        {{ end }}
+        <li>
+          <a href="{{ "/sobre" | relURL }}"
+            {{ if eq .RelPermalink "/sobre/" }}class="active"{{ end }}>
+            Sobre
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!--<div class="header-actions">
+      <button class="header-icon-btn" aria-label="Modo escuro">🌙</button>
+      <a class="btn-subscribe" href="{{ "/sobre" | relURL }}">Assinar</a>
+    </div>-->
+  </div>
+</header>

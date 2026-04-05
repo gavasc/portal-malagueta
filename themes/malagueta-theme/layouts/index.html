@@ -1,0 +1,118 @@
+{{ define "main" }}
+
+{{ $allPosts := where .Site.RegularPages "Type" "posts" }}
+{{ $sorted   := (where $allPosts "Draft" false).ByDate.Reverse }}
+{{ $hero     := index $sorted 0 }}
+{{ $card1    := index $sorted 1 }}
+{{ $card2    := index $sorted 2 }}
+{{ $card3    := index $sorted 3 }}
+
+{{/* ── HERO ──────────────────────────────────── */}}
+{{ if $hero }}
+<div class="hero-section">
+  <a class="hero-image-link" href="{{ $hero.RelPermalink }}">
+    <div class="hero-image-wrap">
+      {{ with $hero.Params.cover }}
+        <img src="{{ . }}" alt="{{ $hero.Title }}" loading="eager">
+      {{ else }}
+        <div class="img-placeholder" style="aspect-ratio:4/3">🌶</div>
+      {{ end }}
+    </div>
+  </a>
+
+  <div class="hero-body">
+    <div class="hero-category-row">
+      {{ with $hero.Params.categories }}
+        {{ $cat := index . 0 }}
+        <span class="category-pill {{ $cat | urlize }}">{{ $cat }}</span>
+      {{ end }}
+      {{ with $hero.Params.author }}
+        <span class="hero-byline">por <strong>{{ . }}</strong></span>
+      {{ end }}
+    </div>
+
+    <h2 class="hero-title">
+      <a href="{{ $hero.RelPermalink }}">{{ $hero.Title }}</a>
+    </h2>
+
+    {{ with $hero.Params.subtitle }}
+      <p class="hero-excerpt">{{ . }}</p>
+    {{ else }}
+      <p class="hero-excerpt">{{ $hero.Summary }}</p>
+    {{ end }}
+  </div>
+</div>
+{{ end }}
+
+{{/* ── 3 CARDS GRID ────────────────────────── */}}
+{{ if or $card1 $card2 $card3 }}
+<div class="cards-grid">
+  {{ range slice $card1 $card2 $card3 }}
+    {{ if . }}
+    <a class="post-card" href="{{ .RelPermalink }}">
+      <div class="post-card-img-wrap">
+        {{ with .Params.cover }}
+          <img src="{{ . }}" alt="{{ $.Title }}" loading="lazy">
+        {{ else }}
+          <div class="img-placeholder">📰</div>
+        {{ end }}
+      </div>
+      {{ with .Params.categories }}
+        <div class="post-card-category">{{ index . 0 }}</div>
+      {{ end }}
+      <div class="post-card-title">
+        <a href="{{ $.RelPermalink }}">{{ .Title }}</a>
+      </div>
+      <div class="post-card-meta">
+        <span>🕐 {{ .Date.Format "Jan 2, 15:04" }}</span>
+        <span>·</span>
+        {{ with .Params.author }}<span>por {{ . }}</span>{{ end }}
+      </div>
+    </a>
+    {{ end }}
+  {{ end }}
+</div>
+{{ end }}
+
+{{/* ── SEÇÕES POR CATEGORIA ────────────────── */}}
+{{ range .Site.Params.navCategories }}
+  {{ $catName  := . }}
+  {{ $catPosts := where $sorted "Params.categories" "intersect" (slice $catName) }}
+  {{ $catPosts  = first 4 $catPosts }}
+
+  {{ if $catPosts }}
+  <div class="category-section">
+    <div class="category-section-header">
+      <div class="category-section-title">{{ $catName }}</div>
+      <a class="category-section-link"
+         href="{{ printf "/categories/%s/" ($catName | urlize) | relURL }}">
+        Ver tudo →
+      </a>
+    </div>
+
+    <div class="category-posts-list">
+      {{ range $catPosts }}
+      <a class="list-card" href="{{ .RelPermalink }}">
+        {{ with .Params.cover }}
+          <img class="list-card-img" src="{{ . }}" alt="{{ $.Title }}" loading="lazy">
+        {{ else }}
+          <div class="list-card-img img-placeholder">📰</div>
+        {{ end }}
+        <div class="list-card-content">
+          {{ with .Params.categories }}
+            <div class="list-card-category">{{ index . 0 }}</div>
+          {{ end }}
+          <div class="list-card-title">{{ .Title }}</div>
+          <div class="list-card-meta">
+            {{ .Date.Format "Jan 2, 2006" }}
+            {{ with .Params.author }} · {{ . }}{{ end }}
+          </div>
+        </div>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+  {{ end }}
+{{ end }}
+
+{{ end }}

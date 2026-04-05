@@ -1,0 +1,13 @@
+{{ define "main" }}
+
+<div class="about-layout">
+  <h1 class="about-title">{{ .Title }}</h1>
+  {{ with .Params.subtitle }}
+    <p class="about-subtitle">{{ . }}</p>
+  {{ end }}
+  <div class="about-content">
+    {{ .Content }}
+  </div>
+</div>
+
+{{ end }}

@@ -1,0 +1,22 @@
+baseURL = "https://exemplo.com/"
+languageCode = "pt-BR"
+title = "Portal Malagueta"
+theme = "malagueta-theme"
+summaryLength = 20
+
+[pagination]
+  pagerSize = 10
+
+[params]
+  description = "Um portal transmídia que traz um toque de pimenta para a cobertura cultural."
+  author = "Portal Malagueta"
+  navCategories = ["Arte"]
+  heroCount = 3
+  sidebarCount = 6
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+
+[markup.goldmark.renderer]
+  unsafe = true

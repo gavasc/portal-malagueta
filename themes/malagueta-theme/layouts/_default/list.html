@@ -1,0 +1,92 @@
+{{ define "main" }}
+
+{{ $sorted := .Pages.ByDate.Reverse }}
+
+<div class="list-page-layout">
+
+  <div>
+    <div class="list-page-header">
+      <h1 class="list-page-title">
+        {{- if .IsHome -}}
+          Todos os Posts
+        {{- else -}}
+          {{ .Title }}
+        {{- end -}}
+      </h1>
+      <div class="list-page-count">{{ len .Pages }} publicações</div>
+    </div>
+
+    <div class="posts-list">
+      {{ range $sorted }}
+      <div class="post-list-item">
+        <a href="{{ .RelPermalink }}" style="flex-shrink:0;flex-grow:0;width:160px;height:110px;display:block">
+          {{ with .Params.cover }}
+            <img class="post-list-item-img" src="{{ . }}" alt="{{ $.Title }}" loading="lazy">
+          {{ else }}
+            <div class="post-list-item-img img-placeholder">📰</div>
+          {{ end }}
+        </a>
+
+        <div class="post-list-item-content">
+          {{ with .Params.categories }}
+            <div class="category-badge">{{ index . 0 }}</div>
+          {{ end }}
+          <h2 class="post-list-item-title">
+            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+          </h2>
+          <p class="post-list-item-excerpt">{{ .Summary }}</p>
+          <div class="post-list-item-meta">
+            {{ .Date.Format "Jan 2, 2006" | upper }}
+            {{ with .Params.author }} • {{ . }}{{ end }}
+          </div>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+
+    {{/* Pagination */}}
+    {{ template "_internal/pagination.html" . }}
+
+  </div>
+
+  {{/* SIDEBAR */}}
+  <aside class="single-sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Categorias</div>
+      <ul class="footer-links" style="list-style:none">
+        {{ range $.Site.Params.navCategories }}
+        <li style="margin-bottom:10px">
+          <a href="{{ printf "/categories/%s/" (. | urlize) | relURL }}"
+             style="font-size:14px;color:var(--muted);transition:color 0.15s"
+             onmouseover="this.style.color='var(--text)'"
+             onmouseout="this.style.color='var(--muted)'">
+            {{ . }}
+          </a>
+        </li>
+        {{ end }}
+      </ul>
+    </div>
+
+    {{/* Recent posts */}}
+    {{ $recent := first 5 (where .Site.RegularPages "Type" "posts") }}
+    {{ if $recent }}
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Recentes</div>
+      {{ range $recent }}
+      <a class="related-post" href="{{ .RelPermalink }}">
+        {{ with .Params.cover }}
+          <img class="related-post-img" src="{{ . }}" alt="{{ $.Title }}" loading="lazy">
+        {{ end }}
+        <div class="related-post-text">
+          <div class="related-post-title">{{ .Title }}</div>
+          <div class="related-post-meta">{{ .Date.Format "Jan 2, 2006" | upper }}</div>
+        </div>
+      </a>
+      {{ end }}
+    </div>
+    {{ end }}
+  </aside>
+
+</div>
+
+{{ end }}

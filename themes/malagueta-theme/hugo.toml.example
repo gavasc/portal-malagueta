@@ -1,0 +1,23 @@
+baseURL = "https://exemplo.com/"
+languageCode = "pt-BR"
+title = "Portal Malagueta"
+theme = "malagueta-theme"
+paginate = 10
+summaryLength = 20
+
+[params]
+  description = "Um portal transmídia que traz um toque de pimenta para a cobertura cultural."
+  author = "Portal Malagueta"
+  # Categorias que aparecem no navbar (devem corresponder às categorias dos posts)
+  navCategories = ["Notícias", "Eventos", "Resenhas", "Entrevistas"]
+  # Número de posts no hero da homepage
+  heroCount = 3
+  # Número de posts na sidebar "Mais Populares"
+  sidebarCount = 6
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+
+[markup.goldmark.renderer]
+  unsafe = true

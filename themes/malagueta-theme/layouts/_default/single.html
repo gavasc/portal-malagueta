@@ -1,0 +1,103 @@
+{{ define "main" }}
+
+{{ $related := first 4 (where (.Site.RegularPages.Related .) "Type" "posts") }}
+
+{{/* ── HEADER CENTRALIZADO ─────────────────── */}}
+<div class="single-header">
+  <div class="single-category-row">
+    {{ with .Params.categories }}
+      {{ $cat := index . 0 }}
+      <a class="category-pill {{ $cat | urlize }}"
+         href="{{ printf "/categories/%s/" ($cat | urlize) | relURL }}">
+        {{ $cat }}
+      </a>
+    {{ end }}
+  </div>
+
+  <h1 class="single-title">{{ .Title }}</h1>
+
+  {{ with .Params.subtitle }}
+    <p class="single-subtitle">{{ . }}</p>
+  {{ end }}
+
+  <div class="single-meta-row">
+    <span>🕐 {{ .Date.Format "January 2, 15:04" }}</span>
+    {{ with .ReadingTime }}<span>📖 {{ . }} min de leitura</span>{{ end }}
+  </div>
+</div>
+
+{{/* ── IMAGEM FULL WIDTH ───────────────────── */}}
+{{ with .Params.cover }}
+<div class="single-cover-wrap">
+  <img src="{{ . }}" alt="{{ $.Title }}" loading="eager">
+</div>
+{{ end }}
+
+{{/* ── 3 COLUNAS: autor | conteúdo | compartilhar ── */}}
+<div class="single-layout">
+
+  {{/* COLUNA ESQUERDA — autor */}}
+  <aside class="single-col-left">
+    <div class="author-card">
+      <img class="author-avatar"
+           src="{{ with .Params.authorAvatar }}{{ . }}{{ else }}/images/avatar-placeholder.png{{ end }}"
+           alt="{{ .Params.author }}"
+           onerror="this.style.display='none'">
+      <div class="author-name">{{ with .Params.author }}{{ . }}{{ else }}Portal Malagueta{{ end }}</div>
+      <p class="author-bio">{{ with .Params.authorBio }}{{ . }}{{ else }}Redação do Portal Malagueta.{{ end }}</p>
+      <!--<a class="author-profile-link" href="{{ "/sobre" | relURL }}">Ver Perfil</a>-->
+    </div>
+  </aside>
+
+  {{/* COLUNA CENTRO — conteúdo */}}
+  <article class="single-article">
+    <div class="single-content">
+      {{ .Content }}
+    </div>
+
+    {{ with .Params.tags }}
+    <div class="single-tags">
+      {{ range . }}
+        <a class="tag-pill" href="{{ printf "/tags/%s/" (. | urlize) | relURL }}">#{{ . }}</a>
+      {{ end }}
+    </div>
+    {{ end }}
+  </article>
+
+  {{/* COLUNA DIREITA — subscribe + share */}}
+  <aside class="single-col-right">
+    <!--<div class="subscribe-box">
+      <div class="subscribe-box-icon">👑</div>
+      <div class="subscribe-box-title">Acesso Digital Ilimitado</div>
+      <p class="subscribe-box-text">
+        Leia jornalismo cultural independente.<br>
+        <strong>Apoie o Malagueta.</strong>
+      </p>
+      <a class="btn-subscribe-box" href="{{ "/sobre" | relURL }}">Assinar agora</a>
+      <div class="subscribe-login">
+        Já é assinante? <a href="#">Entrar</a>
+      </div>
+    </div>-->
+
+    <div class="share-box">
+      <div class="share-box-title">Compartilhe este post</div>
+      <div class="share-icons">
+        <a class="share-icon"
+           href="https://www.facebook.com/sharer/sharer.php?u={{ .Permalink }}"
+           target="_blank" rel="noopener" title="Facebook">f</a>
+        <a class="share-icon"
+           href="https://twitter.com/intent/tweet?url={{ .Permalink }}&text={{ .Title | urlquery }}"
+           target="_blank" rel="noopener" title="Twitter/X">𝕏</a>
+        <a class="share-icon"
+           href="https://wa.me/?text={{ .Title | urlquery }}%20{{ .Permalink }}"
+           target="_blank" rel="noopener" title="WhatsApp">W</a>
+        <a class="share-icon"
+           href="mailto:?subject={{ .Title | urlquery }}&body={{ .Permalink }}"
+           title="Email">✉</a>
+      </div>
+    </div>
+  </aside>
+
+</div>
+
+{{ end }}

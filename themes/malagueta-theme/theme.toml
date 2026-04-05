@@ -1,0 +1,8 @@
+name = "Malagueta"
+license = "MIT"
+licenselink = "https://opensource.org/licenses/MIT"
+description = "Portal transmídia cultural — tema Hugo"
+homepage = ""
+tags = ["blog", "magazine", "cultural", "portuguese"]
+features = ["categories", "tags", "sidebar"]
+min_version = "0.110.0"

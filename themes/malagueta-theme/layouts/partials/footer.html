@@ -1,0 +1,38 @@
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-inner">
+
+      <div class="footer-brand">
+        <div class="site-title" style="font-size:24px;margin-bottom:10px">
+          <a href="{{ "/" | relURL }}">{{ .Site.Title }}</a>
+        </div>
+        <p>{{ .Site.Params.description }}</p>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Seções</div>
+        <ul class="footer-links">
+          {{ range .Site.Params.navCategories }}
+          <li>
+            <a href="{{ printf "/categories/%s/" (. | urlize) | relURL }}">{{ . }}</a>
+          </li>
+          {{ end }}
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Portal</div>
+        <ul class="footer-links">
+          <li><a href="{{ "/" | relURL }}">Início</a></li>
+          <li><a href="{{ "/sobre" | relURL }}">Sobre</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <span>© {{ now.Year }} {{ .Site.Title }}</span>
+      <span>Feito com 🌶️</span>
+    </div>
+  </div>
+</footer>
