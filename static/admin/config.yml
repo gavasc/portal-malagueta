@@ -1,0 +1,50 @@
+backend:
+  name: github
+  repo: gavasc/portal-malagueta
+  branch: main
+  # After deploying the Cloudflare OAuth worker, paste its URL below:
+  # base_url: https://your-worker.your-subdomain.workers.dev
+
+site_url: https://portalmalagueta.com.br
+media_folder: static/images/uploads
+public_folder: /images/uploads
+
+collections:
+  - name: posts
+    label: Posts
+    folder: content/posts
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Título, name: title, widget: string }
+      - { label: Subtítulo, name: subtitle, widget: string, required: false }
+      - { label: Data, name: date, widget: datetime }
+      - { label: Rascunho, name: draft, widget: boolean, default: false }
+      - { label: Autor, name: author, widget: string, required: false }
+      - { label: Bio do Autor, name: authorBio, widget: string, required: false }
+      - { label: Avatar do Autor (URL), name: authorAvatar, widget: string, required: false }
+      - { label: Imagem de Capa (URL), name: cover, widget: string, required: false }
+      - label: Categorias
+        name: categories
+        widget: list
+        required: false
+        field: { label: Categoria, name: category, widget: string }
+      - label: Tags
+        name: tags
+        widget: list
+        required: false
+        field: { label: Tag, name: tag, widget: string }
+      - { label: Resumo, name: summary, widget: string, required: false }
+      - { label: Conteúdo, name: body, widget: markdown }
+
+  - name: pages
+    label: Páginas
+    files:
+      - label: Sobre
+        name: sobre
+        file: content/sobre.md
+        fields:
+          - { label: Título, name: title, widget: string }
+          - { label: Data, name: date, widget: datetime }
+          - { label: Rascunho, name: draft, widget: boolean, default: false }
+          - { label: Conteúdo, name: body, widget: markdown }
