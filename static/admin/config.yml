@@ -2,8 +2,7 @@ backend:
   name: github
   repo: gavasc/portal-malagueta
   branch: main
-  # After deploying the Cloudflare OAuth worker, paste its URL below:
-  # base_url: https://your-worker.your-subdomain.workers.dev
+  base_url: https://sveltia-cms-auth.gavasc.workers.dev/
 
 site_url: https://portalmalagueta.com.br
 media_folder: static/images/uploads
